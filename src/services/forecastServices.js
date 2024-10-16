@@ -16,7 +16,7 @@ export function getForecast(location) {
     })
 }
 function transformData(raw){
-  let weatherData= {}
+  let weatherData = {}
   weatherData.position = { lat: raw.latitude,
     long: raw.longitude }
     weatherData.timezone = {
@@ -44,7 +44,7 @@ function transformData(raw){
           direction:
           raw.daily.wind_direction_10m_dominant[i],
             direction_unit:
-          raw.daily_units.wind_direction_10m_dominant[i],
+          raw.daily_units.wind_direction_10m_dominant,
             speed: raw.daily.wind_speed_10m_max[i],
             gusts: raw.daily.wind_gusts_10m_max[i],
             unit:
