@@ -62,6 +62,8 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);
+  background-image: url('./images/clouds.png');
+
   transition:
     color 0.5s,
     background-color 0.5s;

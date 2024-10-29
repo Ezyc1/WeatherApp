@@ -1,6 +1,6 @@
 <script setup>
-import ForecastResult from '@/components/ForecastResult.vue'
-import { getForecast } from '@/services/forecastService'
+import CurrentResult from '@/components/CurrentResult.vue'
+import { getForecast } from '@/services/forecastService.js'
 import { ref, watchEffect } from 'vue'
 
 const currentLocation = ref({
@@ -49,9 +49,10 @@ watchEffect(() => {
       </p>
     </div>
     <br />
-    <h3 id="forecasts">Forecasts</h3>
-    <br />
-    <ForecastResult :forecast="info" />
+    <div id="resultDiv">
+      <h3 id="cWeather">Current weather</h3>
+      <CurrentResult :location="props.location" />
+    </div>
   </template>
 </template>
 <style scoped>
@@ -69,9 +70,8 @@ watchEffect(() => {
 #currentLocation {
   border: 2px;
   border-style: solid;
-  text-align: center;
 }
-#forecasts {
+#cWeather {
   border: 2px;
   border-style: solid;
   text-align: center;

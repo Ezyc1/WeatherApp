@@ -2,7 +2,7 @@
 
 #app {
   max-width: 1280px;
-  margin: 0 auto;
+  margin-top: 20px;
   padding: 2rem;
   font-weight: normal;
 }
@@ -10,26 +10,30 @@
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: rgb(0, 189, 94);
   transition: 0.4s;
   padding: 3px;
 }
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: rgba(0, 141, 71, 0.438);
+    border-radius: 3px;
   }
 }
 
 @media (min-width: 1024px) {
   body {
-    display: flex;
     place-items: center;
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+}
+nav {
+  position: absolute; /* Ensure nav is positioned absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  z-index: 1000; /* Ensure it's on top of other elements */
 }
