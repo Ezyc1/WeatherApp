@@ -75,5 +75,7 @@ watchEffect(() => {
   border: 2px;
   border-style: solid;
   text-align: center;
+  background-color: whitesmoke;
+  font-size: 200%;
 }
 </style>

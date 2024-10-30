@@ -56,7 +56,6 @@ function getText(code) {
   border-radius: 4px;
   margin-bottom: 1em; /* Space below the header */
   text-align: center;
-  background-image: url('./images/clouds.png');
 }
 
 .header {
@@ -69,6 +68,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Match the layout of the header */
   margin-bottom: 0.5em; /* Space between forecast entries */
+  background-color: whitesmoke;
 }
 
 li {

@@ -44,19 +44,22 @@ function getText(code) {
 <template>
   <template v-if="loading"> loading... </template>
   <template v-else>
+    <div>
+      <h2>Created:</h2>
+      <span id="dateC"
+        >{{ new Date(weather.time).getDate() }}.{{
+          new Date(weather.time).getMonth() + 1
+        }}
+        {{ weather.time.substr(weather.time.indexOf('T') + 1) }}
+
+        (Updated in
+        {{ parseInt(weather.interval / 60) }}
+        minutes)
+      </span>
+    </div>
     <ul>
       <li>
-        Created:
-        <span
-          >{{ new Date(weather.time).getDate() }}.{{
-            new Date(weather.time).getMonth() + 1
-          }}
-          {{ weather.time.substr(weather.time.indexOf('T') + 1) }}</span
-        >
-        (Updated in {{ parseInt(weather.interval / 60) }} minutes)
-      </li>
-      <li>
-        Weather
+        <h1>Weather</h1>
         <ul>
           <li>{{ getText(weather.weather.code) }}</li>
           <li>
@@ -66,7 +69,7 @@ function getText(code) {
         </ul>
       </li>
       <li>
-        Temp
+        <h1>Temp</h1>
         <ul>
           <li>{{ weather.weather.temp.temp + weather.weather.temp.unit }}</li>
           <li>
@@ -82,7 +85,7 @@ function getText(code) {
         </ul>
       </li>
       <li>
-        Precip
+        <h1>Precip</h1>
         <ul>
           <li>
             {{
@@ -93,7 +96,7 @@ function getText(code) {
         </ul>
       </li>
       <li>
-        Wind
+        <h1>Wind</h1>
         <ul>
           <li>
             {{
@@ -115,7 +118,7 @@ function getText(code) {
         </ul>
       </li>
       <li>
-        Pressure
+        <h1>Pressure</h1>
         <ul>
           <li>
             {{
@@ -133,11 +136,16 @@ function getText(code) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-align: center;
 }
-
+#dateC {
+  padding-left: 4px;
+  padding-right: 4px;
+  text-align: center;
+}
 #currentList {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+  grid-template-columns: repeat(3, 1fr); /* Four equal columns */
   color: #333; /* Darker text for better readability */
   border: 1px solid #ccc; /* Border for the list */
   border-radius: 8px; /* Rounded corners */
@@ -157,7 +165,7 @@ function getText(code) {
 
 ul {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Match the layout of the header */
+  grid-template-columns: repeat(3, 1fr); /* Match the layout of the header */
   margin: 1em 0; /* Vertical space around the list */
   padding: 0; /* Remove padding */
 }
@@ -210,9 +218,7 @@ li span {
   text-align: center; /* Center text */
   vertical-align: middle; /* Align items vertically */
 }
-
-#dateOvercast {
-  border: 1px dashed #007bff; /* Dashed border for date */
-  font-size: 20px; /* Font size for date display */
+.ulData {
+  text-align: center;
 }
 </style>

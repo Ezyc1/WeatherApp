@@ -63,6 +63,8 @@ body {
   color: var(--color-text);
   background: var(--color-background);
   background-image: url('./images/clouds.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 
   transition:
     color 0.5s,

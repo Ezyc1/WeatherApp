@@ -66,14 +66,17 @@ watchEffect(() => {
   padding-top: 2px;
   padding-left: 2px;
   padding-right: 2px;
+  background-color: whitesmoke;
 }
 #currentLocation {
   border: 2px;
   border-style: solid;
+  text-align: center;
 }
 #cWeather {
   border: 2px;
   border-style: solid;
   text-align: center;
+  font-size: 200%;
 }
 </style>

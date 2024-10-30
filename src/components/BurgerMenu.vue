@@ -27,18 +27,19 @@ function toggleActive() {
   justify-content: flex-start; /* Align items to the left */
   align-items: center; /* Center vertically */
   margin-right: 20px; /* Space from the right edge */
+  position: fixed;
 }
 
 .burger-button {
   position: relative;
-  height: 50px; /* Adjusted height */
-  width: 50px; /* Adjusted width */
+  height: 60px; /* Adjusted height */
+  width: 30px; /* Adjusted width */
   border: 0;
   border-radius: 0;
   background-color: transparent;
   pointer-events: all;
   cursor: pointer; /* Change cursor to pointer */
-  z-index: 99;
+  z-index: 1030;
 }
 
 .burger-bar {
@@ -82,7 +83,7 @@ function toggleActive() {
 }
 
 .navbar {
-  position: absolute; /* Position navbar absolutely */
+  position: fixed; /* Position navbar absolutely */
   top: 60px; /* Space below burger button */
   left: 0; /* Align to the left */
   background-color: rgb(109, 108, 108); /* Background color for visibility */

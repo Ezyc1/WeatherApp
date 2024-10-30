@@ -2,6 +2,7 @@
 import router from '@/router'
 import { getPosition } from '@/services/positioningService'
 import { onMounted, ref } from 'vue'
+import LeafletMap from '@/components/LeafletMap.vue'
 
 const location = ref({
   name: '',
@@ -149,6 +150,7 @@ function setLocation(loc, navigate) {
       >
     </li>
   </ul>
+  <div id="leafletMap"><LeafletMap></LeafletMap></div>
 </template>
 
 <style scoped>
@@ -157,15 +159,16 @@ function setLocation(loc, navigate) {
   max-width: 600px; /* Limit max width for better readability */
   margin: 0 auto; /* Center the container */
   padding: 1em; /* Add some padding */
-  background-color: #f9f9f9; /* Light background for contrast */
+  background-color: #ffffff; /* Light background for contrast */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+  border-style: dashed;
 }
 
 /* Header styling */
 h2,
 h3 {
-  color: #333; /* Dark color for headers */
+  color: #535353; /* Dark color for headers */
   margin-bottom: 0.5em; /* Space below headers */
 }
 
@@ -233,6 +236,9 @@ li {
 /* Highlight on hover for list items */
 li:hover {
   background-color: rgb(0, 141, 71); /* Light gray on hover */
+  border-style: solid;
+  border-color: rgb(0, 141, 71);
+  border-width: 2px;
 }
 
 /* Default class for highlighting */
@@ -245,10 +251,10 @@ li:hover {
 .remove {
   display: inline-block;
   position: absolute;
-  right: -1em; /* Positioning */
+  right: -5%; /* Positioning */
   top: 50%; /* Center vertically */
   transform: translateY(-50%); /* Center adjustment */
-  background-color: rgb(136, 0, 0); /* Remove button color */
+  background-color: rgb(200, 0, 0); /* Remove button color */
   color: wheat; /* Remove button text color */
   padding: 0.6em 1em; /* Padding */
   border-radius: 4px; /* Rounded corners */
@@ -258,7 +264,7 @@ li:hover {
 
 /* Remove button hover effect */
 .remove:hover {
-  background-color: rgb(200, 0, 0); /* Darker red on hover */
+  background-color: rgb(136, 0, 0); /* Darker red on hover */
 }
 
 /* Error message styling */
