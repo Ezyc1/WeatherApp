@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router'
 import { getPosition } from '@/services/positioningService'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import LeafletMap from '@/components/LeafletMap.vue'
 
 const location = ref({
@@ -10,14 +10,17 @@ const location = ref({
   default: false,
 })
 const locationsList = ref([])
-const errorMessage = ref('') // Add an error message ref
+const errorMessage = ref('')
+
+// Computed property to get the default location
+const defaultLocation = computed(() => {
+  return locationsList.value.find(loc => loc.default)
+})
 
 onMounted(() => {
   locationsList.value = JSON.parse(localStorage.getItem('locations')) || []
 
-  let current = locationsList.value.find(loc => {
-    return (loc.name = 'Current location')
-  })
+  let current = locationsList.value.find(loc => loc.name === 'Current location')
   if (!current) {
     current = {
       name: 'Current location',
@@ -30,16 +33,16 @@ onMounted(() => {
   getPosition()
     .then(response => {
       current.position = response.position
-      let index = locationsList.value.findIndex(loc => {
-        return loc.name === 'Current location'
-      })
+      let index = locationsList.value.findIndex(
+        loc => loc.name === 'Current location',
+      )
       locationsList.value.splice(index, 1, current)
       localStorage.setItem('locations', JSON.stringify(locationsList.value))
     })
     .catch(err => {
-      let index = locationsList.value.findIndex(loc => {
-        return loc.name === 'Current location'
-      })
+      let index = locationsList.value.findIndex(
+        loc => loc.name === 'Current location',
+      )
       locationsList.value.splice(index, 1)
       console.log(err)
     })
@@ -47,16 +50,15 @@ onMounted(() => {
 
 function saveLocation() {
   if (!location.value.name.trim()) {
-    errorMessage.value = 'Location name is invalid' // Set error message
-    return // Stop the function execution
+    errorMessage.value = 'Location name is invalid'
+    return
   }
 
-  errorMessage.value = '' // Clear any previous error messages
+  errorMessage.value = ''
 
   let locations = locationsList.value.filter(loc => {
     return (
-      loc.name.toLocaleLowerCase().trim() !=
-      location.value.name.toLocaleLowerCase().trim()
+      loc.name.toLowerCase().trim() !== location.value.name.toLowerCase().trim()
     )
   })
   locations.push(location.value)
@@ -71,9 +73,7 @@ function resetLocation() {
 }
 
 function removeLocation(loc) {
-  locationsList.value = locationsList.value.filter(location => {
-    return location !== loc
-  })
+  locationsList.value = locationsList.value.filter(location => location !== loc)
   if (loc.default && locationsList.value.length > 0) {
     locationsList.value[0].default = true
   }
@@ -84,7 +84,7 @@ function setLocation(loc, navigate) {
   if (locationsList.value.indexOf(loc) === -1) {
     return
   }
-  locationsList.value.map(itm => {
+  locationsList.value.forEach(itm => {
     itm.default = itm === loc
   })
   localStorage.setItem('locations', JSON.stringify(locationsList.value))
@@ -95,195 +95,220 @@ function setLocation(loc, navigate) {
 </script>
 
 <template>
-  <h2 id="locTitle">Locations</h2>
-  <label>
-    Name:
-    <input type="text" v-model="location.name" placeholder="Location name" />
-  </label>
-  <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
-  <!-- Display error message -->
-  <label>
-    Lat:
-    <input
-      type="number"
-      max="90"
-      min="-90"
-      step=".1"
-      size="5"
-      v-model="location.position.lat"
-    />
-  </label>
-  <label>
-    Long:
-    <input
-      type="number"
-      max="180"
-      min="-180"
-      step=".1"
-      size="6"
-      v-model="location.position.long"
-    />
-  </label>
-  <button @click="saveLocation">Save</button>
-  <button @click="resetLocation">Reset</button>
-  <hr />
-  <h3>List</h3>
-  <ul>
-    <li
-      v-for="loc in locationsList"
-      :key="loc.name"
-      :class="loc.default ? 'default' : ''"
-      @click="setLocation(loc, true)"
-    >
-      {{ loc.name }}
-      ({{ Math.abs(loc.position?.lat ?? 0).toFixed(2) }}°{{
-        loc.position?.lat > 0 ? 'N' : 'S'
-      }}
-      {{ Math.abs(loc.position?.long ?? 0).toFixed(2) }}°{{
-        loc.position?.long > 0 ? 'E' : 'W'
-      }})
-      <span
-        class="remove"
-        @click="removeLocation(loc)"
-        v-show="loc.name !== 'Current location'"
-        >x</span
+  <div id="tempCss">
+    <h2 id="locTitle">Locations</h2>
+    <label>
+      Name:
+      <input type="text" v-model="location.name" placeholder="Location name" />
+    </label>
+    <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
+
+    <label>
+      Lat:
+      <input
+        type="number"
+        max="90"
+        min="-90"
+        step=".1"
+        size="5"
+        v-model="location.position.lat"
+      />
+    </label>
+    <label>
+      Long:
+      <input
+        type="number"
+        max="180"
+        min="-180"
+        step=".1"
+        size="6"
+        v-model="location.position.long"
+      />
+    </label>
+    <button @click="saveLocation">Save</button>
+    <button @click="resetLocation">Reset</button>
+
+    <hr />
+    <h3 id="listTitle">List</h3>
+    <ul>
+      <li
+        v-for="loc in locationsList"
+        :key="loc.name"
+        :class="loc.default ? 'default' : ''"
+        @click="setLocation(loc, true)"
       >
-    </li>
-  </ul>
-  <div id="leafletMap"><LeafletMap></LeafletMap></div>
+        {{ loc.name }}
+        ({{ Math.abs(loc.position?.lat ?? 0).toFixed(2) }}°{{
+          loc.position?.lat > 0 ? 'N' : 'S'
+        }}
+        {{ Math.abs(loc.position?.long ?? 0).toFixed(2) }}°{{
+          loc.position?.long > 0 ? 'E' : 'W'
+        }})
+        <span
+          class="remove"
+          @click="removeLocation(loc)"
+          v-show="loc.name !== 'Current location'"
+          >x</span
+        >
+      </li>
+    </ul>
+    <!-- Pass the coordinates of the default location to LeafletMap -->
+    <div id="leafletMap" v-if="defaultLocation">
+      <LeafletMap :centerPosition="defaultLocation.position"></LeafletMap>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-/* Overall styling for the container */
-.container {
-  max-width: 600px; /* Limit max width for better readability */
-  margin: 0 auto; /* Center the container */
-  padding: 1em; /* Add some padding */
-  background-color: #ffffff; /* Light background for contrast */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
-  border-style: dashed;
+/* Reset styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-/* Header styling */
-h2,
-h3 {
-  color: #535353; /* Dark color for headers */
-  margin-bottom: 0.5em; /* Space below headers */
+/* Container styling */
+#tempCss {
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+/* Title styling */
+#locTitle,
+#listTitle {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 /* Label styling */
 label {
   display: block;
-  width: 100%; /* Full width */
-  margin: 1em 0; /* Add vertical margin */
-  font-size: 1.1em; /* Slightly larger font */
+  width: 100%;
+  margin: 1em 0;
+  font-size: 1em;
 }
 
 /* Input styling */
 input[type='text'],
 input[type='number'] {
-  width: 100%; /* Full width inputs */
-  padding: 0.5em; /* Padding inside inputs */
-  border: 1px solid #ccc; /* Border color */
-  border-radius: 4px; /* Rounded borders */
-  transition: border-color 0.3s; /* Smooth transition for border */
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc; /* Light border for input fields */
+  border-radius: 4px;
+  transition: border-color 0.3s;
+  margin-bottom: 0.5em;
 }
 
-/* Input focus effect */
 input[type='text']:focus,
 input[type='number']:focus {
-  border-color: rgb(0, 189, 94); /* Blue border on focus */
-  outline: none; /* Remove default outline */
-  border-width: 3px;
+  border-color: #000000; /* Primary blue on focus */
+  border-style: dashed;
+  outline: none;
+  border-width: 2px;
 }
 
 /* Button styling */
 button {
-  background-color: rgb(0, 189, 94); /* Primary button color */
-  color: white; /* Button text color */
-  border-style: none;
-  border-radius: 4px; /* Rounded corners */
-  padding: 0.5em 1em; /* Button padding */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 1em; /* Consistent font size */
-  margin-right: 0.5em; /* Space between buttons */
-  transition: background-color 0.3s; /* Smooth transition for background */
+  background-color: rgba(0, 0, 0, 0.514);
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-size: 1em;
+  margin-right: 0.5em;
+  transition: background-color 0.3s;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-/* Button hover effect */
 button:hover {
-  background-color: rgb(0, 141, 71); /* Darker shade on hover */
-  border-style: solid;
-  border-color: rgb(0, 141, 71);
-  border-width: 2px;
+  background-color: #ffffff2d; /* Darker blue on hover */
 }
 
 /* List styling */
 ul {
-  list-style: none; /* Remove default list styles */
-  padding: 0; /* Remove padding */
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0;
+  gap: 0.5em;
+  margin: 1em 0;
 }
 
 li {
-  padding: 0.5em; /* Padding inside list items */
-  margin: 0.5em 0; /* Margin between list items */
-  position: relative; /* Position for child elements */
-  border-radius: 4px; /* Rounded corners for list items */
-  transition: background-color 0.3s; /* Smooth transition */
+  padding: 0.8em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.514);
+  transition: background-color 0.3s;
 }
 
-/* Highlight on hover for list items */
+li.default {
+  font-weight: bold italic;
+  background-color: rgba(
+    173,
+    216,
+    230,
+    0.479
+  ); /* Slightly darker blue for default */
+}
+
 li:hover {
-  background-color: rgb(0, 141, 71); /* Light gray on hover */
-  border-style: solid;
-  border-color: rgb(0, 141, 71);
-  border-width: 2px;
+  background-color: #ffffff2d;
 }
 
-/* Default class for highlighting */
-.default {
-  font-weight: bold;
-  background-color: rgb(0, 189, 94); /* Light blue for default location */
-}
-
-/* Remove button styling */
 .remove {
-  display: inline-block;
-  position: absolute;
-  right: -5%; /* Positioning */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center adjustment */
-  background-color: rgb(200, 0, 0); /* Remove button color */
-  color: wheat; /* Remove button text color */
-  padding: 0.6em 1em; /* Padding */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Pointer on hover */
-  transition: background-color 0.3s; /* Transition for color */
+  color: #fff; /* White text for contrast */
+  background-color: #dc3545; /* Red color for remove button */
+  padding: 0.3em 0.6em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* Remove button hover effect */
 .remove:hover {
-  background-color: rgb(136, 0, 0); /* Darker red on hover */
+  background-color: #c82333; /* Darker red on hover */
 }
 
 /* Error message styling */
 .error {
-  color: red; /* Red color for error message */
-  font-size: 0.9em; /* Smaller font size */
-  margin-top: 0.5em; /* Space above error message */
+  color: #dc3545; /* Red color for error messages */
+  font-size: 0.9em;
+  margin-top: 0.5em;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  /* Adjust button layout for smaller screens */
-  button {
-    margin-right: 0; /* Remove right margin on small screens */
-    width: 100%; /* Full width on small screens */
-    margin-bottom: 0.5em; /* Margin below buttons */
+  ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #locTitle,
+  #listTitle {
+    font-size: 1.3em;
   }
 }
+
+@media (max-width: 480px) {
+  ul {
+    grid-template-columns: 1fr;
+  }
+
+  #locTitle,
+  #listTitle {
+    font-size: 1.1em;
+  }
+}
+#listTitle,
 #locTitle {
-  font-size: 40px;
+  font-size: 30px;
 }
 </style>

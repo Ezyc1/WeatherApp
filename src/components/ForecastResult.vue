@@ -57,13 +57,6 @@ function getText(code) {
   margin-bottom: 1em; /* Space below the header */
   text-align: center;
 }
-
-.header {
-  font-weight: bold;
-  padding: 1em; /* Padding for header items */
-  text-align: center; /* Center the header text */
-}
-
 ul {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Match the layout of the header */
@@ -111,6 +104,10 @@ li {
   border-style: solid !important;
   text-align: center;
   vertical-align: middle;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
 }
 #dateOvercast {
   border: 1px;

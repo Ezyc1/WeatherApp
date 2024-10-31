@@ -149,7 +149,7 @@ function getText(code) {
   color: #333; /* Darker text for better readability */
   border: 1px solid #ccc; /* Border for the list */
   border-radius: 8px; /* Rounded corners */
-  background-color: #f9f9f9; /* Light background for contrast */
+
   padding: 1em; /* Padding for the list */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
   margin-bottom: 1em; /* Space below the header */

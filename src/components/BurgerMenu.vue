@@ -15,8 +15,8 @@ function toggleActive() {
     </button>
   </div>
   <nav class="navbar" v-show="props.active">
-    <RouterLink to="/">Forecasts</RouterLink>
-    <RouterLink to="/current">Current</RouterLink>
+    <RouterLink to="/">Current</RouterLink>
+    <RouterLink to="/forecast/:location">Forecasts</RouterLink>
     <RouterLink to="/locations">Locations</RouterLink>
   </nav>
 </template>
@@ -43,7 +43,7 @@ function toggleActive() {
 }
 
 .burger-bar {
-  background-color: rgb(0, 189, 94);
+  background-color: lightblue;
   position: absolute;
   left: 0; /* Align to left */
   right: 0; /* Align to right */
@@ -86,17 +86,19 @@ function toggleActive() {
   position: fixed; /* Position navbar absolutely */
   top: 60px; /* Space below burger button */
   left: 0; /* Align to the left */
-  background-color: rgb(109, 108, 108); /* Background color for visibility */
+  background-color: whitesmoke; /* Background color for visibility */
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
   display: flex; /* Use flex for vertical stacking */
   flex-direction: column; /* Stack links vertically */
   padding: 10px; /* Padding for navbar */
+  border: 2px;
+  border-style: solid;
 }
 
 .navbar a {
   padding: 8px 15px; /* Padding for each link */
   text-decoration: none; /* Remove underline */
-  color: #c9c9c9; /* Text color */
+  color: black;
   font-style: bold;
 }
 

@@ -66,12 +66,19 @@ watchEffect(() => {
   padding-top: 2px;
   padding-left: 2px;
   padding-right: 2px;
-  background-color: whitesmoke;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
 }
 #currentLocation {
   border: 2px;
   border-style: solid;
   text-align: center;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
 }
 #cWeather {
   border: 2px;

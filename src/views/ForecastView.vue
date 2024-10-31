@@ -59,17 +59,14 @@ watchEffect(() => {
   display: inline-block;
   margin: 0 1em;
 }
-#resultDiv {
-  border: 2px;
-  border-style: solid;
-  padding-top: 2px;
-  padding-left: 2px;
-  padding-right: 2px;
-}
 #currentLocation {
   border: 2px;
   border-style: solid;
   text-align: center;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
 }
 #forecasts {
   border: 2px;
@@ -77,5 +74,9 @@ watchEffect(() => {
   text-align: center;
   background-color: whitesmoke;
   font-size: 200%;
+  text-shadow: 1px 1px 1px black;
+  color: whitesmoke;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgba(0, 0, 0, 0.514);
 }
 </style>
