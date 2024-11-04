@@ -1,27 +1,28 @@
 import ForecastView from '@/views/ForecastView.vue'
 import CurrentView from '@/views/CurrentView.vue'
+import LocationsView from '@/views/LocationsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/~60926/vader',
       name: 'home',
       component: CurrentView,
     },
     {
-      path: '/forecast/:location',
+      path: '/~60926/vader/forecast/:location',
       name: 'forecast',
       component: ForecastView,
     },
     {
-      path: '/locations',
+      path: '/~60926/vader/locations',
       name: 'Locations',
-      component: () => import('../views/LocationsView.vue'),
+      component: LocationsView,
     },
     {
-      path: '/current',
+      path: '/~60926/vader/current',
       name: 'Current Weather',
       component: CurrentView,
       props: true,

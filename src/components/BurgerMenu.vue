@@ -15,9 +15,9 @@ function toggleActive() {
     </button>
   </div>
   <nav class="navbar" v-show="props.active">
-    <RouterLink to="/">Current</RouterLink>
-    <RouterLink to="/forecast/:location">Forecasts</RouterLink>
-    <RouterLink to="/locations">Locations</RouterLink>
+    <RouterLink to="/~60926/vader/">Current</RouterLink>
+    <RouterLink to="/~60926/vader/forecast/:location">Forecasts</RouterLink>
+    <RouterLink to="/~60926/vader/locations">Locations</RouterLink>
   </nav>
 </template>
 

@@ -95,7 +95,7 @@ function setLocation(loc, navigate) {
   })
   localStorage.setItem('locations', JSON.stringify(locationsList.value))
   if (navigate) {
-    router.push(`/forecast/${loc.name}`)
+    router.push(`/~60926/vader/forecast/${loc.name}`)
   }
 }
 </script>
