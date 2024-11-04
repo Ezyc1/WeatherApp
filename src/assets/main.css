@@ -32,8 +32,8 @@ a,
   }
 }
 nav {
-  position: absolute; /* Ensure nav is positioned absolutely */
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left */
-  z-index: 1000; /* Ensure it's on top of other elements */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
