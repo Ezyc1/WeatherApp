@@ -12,16 +12,18 @@ const location = ref({
 const locationsList = ref([])
 const errorMessage = ref('')
 
-// Computed property to get the default location
+// Hämta standardplatsen från listan
 const defaultLocation = computed(() => {
   return locationsList.value.find(loc => loc.default)
 })
 
 onMounted(() => {
+  // Hämta och visa lagrade platser från localStorage
   locationsList.value = JSON.parse(localStorage.getItem('locations')) || []
 
   let current = locationsList.value.find(loc => loc.name === 'Current location')
   if (!current) {
+    // Skapa en ny plats om "Current location" saknas
     current = {
       name: 'Current location',
       position: { lat: 0, long: 0 },
@@ -30,6 +32,7 @@ onMounted(() => {
     locationsList.value.unshift(current)
   }
 
+  // Hämta användarens aktuella position
   getPosition()
     .then(response => {
       current.position = response.position
@@ -48,12 +51,12 @@ onMounted(() => {
     })
 })
 
+// Spara ny plats i listan och i localStorage
 function saveLocation() {
   if (!location.value.name.trim()) {
     errorMessage.value = 'Location name is invalid'
     return
   }
-
   errorMessage.value = ''
 
   let locations = locationsList.value.filter(loc => {
@@ -68,10 +71,12 @@ function saveLocation() {
   localStorage.setItem('locations', JSON.stringify(locationsList.value))
 }
 
+// Återställ platsens namn och koordinater
 function resetLocation() {
   location.value = { name: '', position: { lat: 0, long: 0 }, default: false }
 }
 
+// Ta bort vald plats och uppdatera listan
 function removeLocation(loc) {
   locationsList.value = locationsList.value.filter(location => location !== loc)
   if (loc.default && locationsList.value.length > 0) {
@@ -80,6 +85,7 @@ function removeLocation(loc) {
   localStorage.setItem('locations', JSON.stringify(locationsList.value))
 }
 
+// Sätt vald plats som standard och navigera till platsen
 function setLocation(loc, navigate) {
   if (locationsList.value.indexOf(loc) === -1) {
     return
@@ -152,7 +158,6 @@ function setLocation(loc, navigate) {
         >
       </li>
     </ul>
-    <!-- Pass the coordinates of the default location to LeafletMap -->
     <div id="leafletMap" v-if="defaultLocation">
       <LeafletMap :centerPosition="defaultLocation.position"></LeafletMap>
     </div>
@@ -160,7 +165,6 @@ function setLocation(loc, navigate) {
 </template>
 
 <style scoped>
-/* Reset styling */
 * {
   margin: 0;
   padding: 0;
@@ -168,7 +172,6 @@ function setLocation(loc, navigate) {
   text-align: center;
 }
 
-/* Container styling */
 #tempCss {
   text-shadow: 1px 1px 1px black;
   color: whitesmoke;
@@ -180,14 +183,12 @@ function setLocation(loc, navigate) {
   width: 100%;
 }
 
-/* Title styling */
 #locTitle,
 #listTitle {
   font-size: 1.5em;
   margin-bottom: 0.5em;
 }
 
-/* Label styling */
 label {
   display: block;
   width: 100%;
@@ -195,12 +196,11 @@ label {
   font-size: 1em;
 }
 
-/* Input styling */
 input[type='text'],
 input[type='number'] {
   width: 100%;
   padding: 0.5em;
-  border: 1px solid #ccc; /* Light border for input fields */
+  border: 1px solid #ccc;
   border-radius: 4px;
   transition: border-color 0.3s;
   margin-bottom: 0.5em;
@@ -208,13 +208,12 @@ input[type='number'] {
 
 input[type='text']:focus,
 input[type='number']:focus {
-  border-color: #000000; /* Primary blue on focus */
+  border-color: #000000;
   border-style: dashed;
   outline: none;
   border-width: 2px;
 }
 
-/* Button styling */
 button {
   background-color: rgba(0, 0, 0, 0.514);
   border: none;
@@ -230,10 +229,9 @@ button {
 }
 
 button:hover {
-  background-color: #ffffff2d; /* Darker blue on hover */
+  background-color: #ffffff2d;
 }
 
-/* List styling */
 ul {
   list-style: none;
   display: grid;
@@ -253,12 +251,7 @@ li {
 
 li.default {
   font-weight: bold italic;
-  background-color: rgba(
-    173,
-    216,
-    230,
-    0.479
-  ); /* Slightly darker blue for default */
+  background-color: rgba(173, 216, 230, 0.479);
 }
 
 li:hover {
@@ -266,8 +259,8 @@ li:hover {
 }
 
 .remove {
-  color: #fff; /* White text for contrast */
-  background-color: #dc3545; /* Red color for remove button */
+  color: #fff;
+  background-color: #dc3545;
   padding: 0.3em 0.6em;
   border-radius: 4px;
   cursor: pointer;
@@ -275,17 +268,15 @@ li:hover {
 }
 
 .remove:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
 }
 
-/* Error message styling */
 .error {
-  color: #dc3545; /* Red color for error messages */
+  color: #dc3545;
   font-size: 0.9em;
   margin-top: 0.5em;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   ul {
     grid-template-columns: repeat(2, 1fr);

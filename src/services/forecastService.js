@@ -121,6 +121,6 @@ function transformCurrent(raw) {
       unit: raw.current_units.pressure_msl,
     },
   }
-  weatherData.weather = data // This is where we encapsulate the current weather data
+  weatherData.weather = data
   return weatherData
 }

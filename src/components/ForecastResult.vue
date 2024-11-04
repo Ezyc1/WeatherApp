@@ -1,10 +1,12 @@
 <script setup>
 import wc from '@/assets/data/weatherCodes.json'
 import { ref } from 'vue'
-const props = defineProps(['forecast'])
-const weatherCodes = ref(wc)
+
+const props = defineProps(['forecast']) // Inkommande prop för väderdata
+const weatherCodes = ref(wc) // Referens till JSON-fil med väderkoder och beskrivningar
 
 function getText(code) {
+  // Funktion för att hämta väderbeskrivning baserat på "Weathercode"
   let wcText =
     weatherCodes.value.find(itm => {
       return itm.code == code
@@ -22,6 +24,7 @@ function getText(code) {
           new Date(day.date).getMonth() + 1
         }}
         {{ getText(day.code) }}
+        <!-- Hämtar väderbeskrivning för dagens kod -->
       </p>
     </li>
     <li>
@@ -51,21 +54,22 @@ function getText(code) {
 
 #forecastList {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
-  color: white; /* Header text color */
+  grid-template-columns: repeat(4, 1fr); /* Fyra lika kolumner */
+  color: white;
   border-radius: 4px;
-  margin-bottom: 1em; /* Space below the header */
+  margin-bottom: 1em;
   text-align: center;
 }
+
 ul {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Match the layout of the header */
-  margin-bottom: 0.5em; /* Space between forecast entries */
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 0.5em;
   background-color: whitesmoke;
 }
 
 li {
-  padding: 0.5em; /* Consistent padding */
+  padding: 0.5em;
   list-style-type: none;
   vertical-align: top;
 }
@@ -73,35 +77,35 @@ li {
 @media (max-width: 768px) {
   #forecastList,
   ul {
-    grid-template-columns: repeat(2, 1fr); /* Two columns on smaller screens */
+    grid-template-columns: repeat(2, 1fr); /* Två kolumner på mindre skärmar */
   }
 
   .header {
-    font-size: larger; /* Larger header font on smaller screens */
+    font-size: larger;
   }
 
   li {
-    font-size: medium; /* Medium font size for list items */
+    font-size: medium;
   }
 }
 
 @media (max-width: 480px) {
   #forecastList,
   ul {
-    grid-template-columns: 1fr; /* Single column on mobile */
+    grid-template-columns: 1fr; /* En kolumn på mobilskärmar */
   }
 
   .header {
-    font-size: large; /* Larger header font for mobile */
+    font-size: large;
   }
 
   li {
-    font-size: small; /* Smaller font size for list items */
+    font-size: small;
   }
 }
+
 #forecastData {
-  border: 1px;
-  border-style: solid !important;
+  border: 1px solid;
   text-align: center;
   vertical-align: middle;
   text-shadow: 1px 1px 1px black;
@@ -109,9 +113,9 @@ li {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background-color: rgba(0, 0, 0, 0.514);
 }
+
 #dateOvercast {
-  border: 1px;
-  border-style: dashed;
+  border: 1px dashed;
   font-size: 20px;
 }
 </style>

@@ -23,30 +23,30 @@ function toggleActive() {
 
 <style scoped>
 #burger {
-  display: flex; /* Use flex for better alignment */
-  justify-content: flex-start; /* Align items to the left */
-  align-items: center; /* Center vertically */
-  margin-right: 20px; /* Space from the right edge */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 20px;
   position: fixed;
 }
 
 .burger-button {
   position: relative;
-  height: 60px; /* Adjusted height */
-  width: 30px; /* Adjusted width */
+  height: 60px;
+  width: 30px;
   border: 0;
   border-radius: 0;
   background-color: transparent;
   pointer-events: all;
-  cursor: pointer; /* Change cursor to pointer */
+  cursor: pointer;
   z-index: 1030;
 }
 
 .burger-bar {
   background-color: lightblue;
   position: absolute;
-  left: 0; /* Align to left */
-  right: 0; /* Align to right */
+  left: 0;
+  right: 0;
   height: 3px;
   transition:
     transform 0.6s ease,
@@ -83,26 +83,26 @@ function toggleActive() {
 }
 
 .navbar {
-  position: fixed; /* Position navbar absolutely */
-  top: 60px; /* Space below burger button */
-  left: 0; /* Align to the left */
-  background-color: whitesmoke; /* Background color for visibility */
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
-  display: flex; /* Use flex for vertical stacking */
-  flex-direction: column; /* Stack links vertically */
-  padding: 10px; /* Padding for navbar */
+  position: fixed;
+  top: 60px;
+  left: 0;
+  background-color: whitesmoke;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
   border: 2px;
   border-style: solid;
 }
 
 .navbar a {
-  padding: 8px 15px; /* Padding for each link */
-  text-decoration: none; /* Remove underline */
+  padding: 8px 15px;
+  text-decoration: none;
   color: black;
   font-style: bold;
 }
 
 .navbar a:hover {
-  background-color: rgba(0, 189, 94, 0.1); /* Highlight on hover */
+  background-color: rgba(0, 189, 94, 0.1);
 }
 </style>
